@@ -1,5 +1,5 @@
 """
-Example: RLC low-pass filter
+AC transfer function and poles/zeros of a RLC low-pass filter
 
 The circuit consists of a voltage source, a resistor, an inductor, and a capacitor.
   Those form a low-pass filter.
@@ -23,10 +23,10 @@ import plotly.graph_objects as go
 # RLC low-pass filter
 s = Constants.laplace_s()
 filter = Circuit()
-filter.add(V(1, 0, Symbol('V_0')))
-filter.add(R(1, 2, Symbol('R')))
-filter.add(L(2, 3, Symbol('L'), s))
-filter.add(C(3, 0, Symbol('C'), s))
+filter.add(V(1, 0, v=1))
+filter.add(R(1, 2, r=Symbol('R')))
+filter.add(L(2, 3, l=Symbol('L'), s=s))
+filter.add(C(3, 0, c=Symbol('C'), s=s))
 
 
 # solve
@@ -35,11 +35,11 @@ print('Solution:')
 print(solution)
 
 
-# substitute concrete values, and create a numeric function
+# substitute concrete values, calculate transfer function
 assert len(solution) == 1
-SUBS = {'R':10, 'L':1e-9, 'C':10e-12, 'V_0':1}
+SUBS = {'R':10, 'L':1e-9, 'C':10e-12}
 tf = solution[0][Symbol('V_3')].subs(SUBS)
-print('Tranfer Function:', tf)
+print('Transfer Function:', tf)
 
 
 # plot transfer function

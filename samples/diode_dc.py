@@ -1,5 +1,5 @@
 """
-Example: diode
+DC transfer function of a diode
 
 The circuit consists of a voltage source, a resistor, and a diode.
 The script calculates the diode current vs. source voltage, and plots it.
@@ -20,9 +20,9 @@ import plotly.graph_objects as go
 
 # diode with resistor
 filter = Circuit()
-filter.add(V(1, 0, Symbol('V_0')))
-filter.add(R(1, 2, Symbol('R')))
-filter.add(D(2, 0, Symbol('I_Sat'), Symbol('n'), Symbol('Temp')))
+filter.add(V(1, 0, v=Symbol('V_0')))
+filter.add(R(1, 2, r=Symbol('R')))
+filter.add(D(2, 0, i_sat=Symbol('I_Sat'), n=Symbol('n'), temp_k=Symbol('Temp')))
 
 
 # solve
@@ -42,7 +42,7 @@ print('Transfer Function:', tf)
 # plot transfer function
 tf_fn = lambdify(Symbol('V_0'), tf)
 vf_range = np.linspace(-0.1, +0.8, 101)
-if_range = np.real(tf_fn(vf_range))
+if_range = np.real(tf_fn(vf_range))  # TODO: fails because of LambertW not defined
 
 fig = go.Figure()
 fig.add_trace(go.Scatter(x=vf_range, y=if_range/1e-3))
