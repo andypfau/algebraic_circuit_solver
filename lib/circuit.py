@@ -67,7 +67,7 @@ class Circuit:
             if node == ref_node_name:
                 result[node] = 0
             else:
-                result[node] = Symbol(f'V_{i}')
+                result[node] = Symbol(f'V_{node}')
                 i += 1
         return result
     
