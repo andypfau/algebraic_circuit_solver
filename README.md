@@ -3,11 +3,29 @@ My Spice
 
 A circuit simulator in Python, simply for the joy of programming it, as an educational project.
 
+
 ## Basic Concept
 
 - Represent a circuit as a graph. Each node is a wire, and each edge is a circuit element, e.g. a source or a passive.
 - Create equations based on Kirchhoff's current law.
 - Solve the equation system using `sympy`.
+
+
+## Files
+
+- `lib/`: the Python package itself.
+- `samples/`: sample code.
+- `pipenv/`: environment for [Pipenv](https://pipenv.pypa.io/).
+- `test/`: testcases for [unittest](https://docs.python.org/3/library/unittest.html).
+
+
+## Requirements
+
+Use the environment in `pipenv/` with [Pipenv](https://pipenv.pypa.io/):
+```bash
+cd pipenv
+python -m pipenv source
+```
 
 
 ## Conventions
