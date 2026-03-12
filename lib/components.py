@@ -22,7 +22,7 @@ class V(Component2Terminal):
 
 
     def _get_voltage(self, i: ComplexType) -> ComplexType:
-        return self.v - self.rs * i
+        return self.v + self.rs * i
     
 
     def __repr__(self):
