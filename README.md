@@ -1,7 +1,7 @@
 Algebraic Circuit Solver
 ========================
 
-A circuit solver which returns sympy expressions.
+A circuit solver, written in Python, which returns sympy expressions.
 
 
 ## Idea and Scope
