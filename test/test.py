@@ -57,6 +57,32 @@ class TestCircuits(unittest.TestCase):
         self.assertAlmostEqual(sol[0][Symbol('I_R2')], 5/4e3)
 
 
+    def test_nonplanar(self):
+        circ = Circuit()
+        # a nonplanar circuit, i.e. one which cannot be drawn in 2D without wires
+        #   crossing, and which would be hard to solve with Kirhhoff's voltage law
+        circ.add(V(1, 0,  10.0, refdes='V0' ))
+        circ.add(R(1, 0, 100.0, refdes='R10'))
+        circ.add(R(2, 0, 200.0, refdes='R20'))
+        circ.add(R(2, 1, 210.0, refdes='R21'))
+        circ.add(R(3, 0, 300.0, refdes='R30'))
+        circ.add(R(3, 1, 310.0, refdes='R31'))
+        circ.add(R(3, 2, 320.0, refdes='R32'))
+        sol = circ.solution()
+        self.assertEqual(len(sol), 1)
+        # solution from LTspice simulation
+        self.assertAlmostEqual(sol[0][Symbol('V_1'  )], + 10.000000e+0, delta=1e-6)
+        self.assertAlmostEqual(sol[0][Symbol('V_2'  )], +  4.885173e+0, delta=1e-6)
+        self.assertAlmostEqual(sol[0][Symbol('V_3'  )], +  4.907429e+0, delta=1e-6)
+        self.assertAlmostEqual(sol[0][Symbol('I_V0' )], -140.783970e-3, delta=1e-6)
+        self.assertAlmostEqual(sol[0][Symbol('I_R10')], +100.000000e-3, delta=1e-6)
+        self.assertAlmostEqual(sol[0][Symbol('I_R20')], + 24.425866e-3, delta=1e-6)
+        self.assertAlmostEqual(sol[0][Symbol('I_R21')], - 24.356317e-3, delta=1e-6)
+        self.assertAlmostEqual(sol[0][Symbol('I_R30')], + 16.358098e-3, delta=1e-6)
+        self.assertAlmostEqual(sol[0][Symbol('I_R31')], - 16.427647e-3, delta=1e-6)
+        self.assertAlmostEqual(sol[0][Symbol('I_R32')], + 69.549737e-6, delta=1e-6)
+
+
 
 class TestTypes(unittest.TestCase):
 
