@@ -53,6 +53,7 @@ python -m pipenv source
     - Each component is asked to generate its own specific equations.
     - All equations, and all unknwons (node voltages, component currents) are returned.
 - You may now solve the equation system, e.g. with `sympy.solve()`.
+    - You may also call `Circuit.solution()`, to automatically plug the equations and unkowns into `sympy.solve()`.
 
 ### Conventions
 
@@ -74,6 +75,29 @@ python -m pipenv source
 Examples of component definitions:
 - `V(1,0,5)`: a 5 V source, positive terminal on node 1 (`"V_1"`), negative terminal on node 0 (reference node).
 - `R(2,1,10)`: a 10 Ω resistor, voltage and current arrows both go from node 2 (`"V_2"`) to node 1 (`"V_1"`). If $V_2-V_1>0$, then $I_{R1}>0$.
+
+
+## Full Example
+
+```python
+from lib import Circuit, V, R
+
+circ = Circuit()
+circ.add(V(1, 0, 5))   # 5 V source
+circ.add(R(1, 2, 1e3)) # 1 kΩ resistor
+circ.add(R(2, 0, 1e3)) # 1 kΩ resistor
+
+sol = circ.solution()
+# sol = [{
+#     I_R1: 5e-3,   # 5 mA
+#     I_R2: 5e-3,   # 5 mA
+#     I_V1: -5e-3,  # -5 mA
+#     V_1: 5.0,     # 5.0 V
+#     V_2: 2.5,     # 2.5 V
+# }]
+```
+
+See `samples/` and `test/` for more examples.
 
 
 ## Missing Features
