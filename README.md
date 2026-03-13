@@ -6,9 +6,11 @@ A circuit solver, written in Python, which returns sympy expressions.
 
 ## Idea and Scope
 
-There are many circuit simulators out there. But they are all numeric, and I sometimes am interested in the transfer function as an algebraic expression.
+There are many circuit simulators out there. But they are all numeric, and I sometimes am interested in algebraic expressions that govern the circuit, and also the transfer function as an algebraic expression.
 
 Another motivation for this project was the curiosity of writing my own circuit solver. In the past I failed to do this with Kirchhoff's voltage law, so this time I used Kirchhoff's current law, which easily works for nonplanar networks.
+
+Keep in mind that Sympy may struggle to solve the equations for most nonlinear circuits (that's why you normally do this numerically). Even for linear circuits, the equations may become overwhelming, but it may be interesting to be able to plug the resulting equations into any other programming language.
 
 This project is not intended to be a competition to a full circuit simulator. It is not intended to provide a full set of simulators (so far it can do DC/OP, AC and S-parameters). It is not intended to have its own schematic editor. It is not intended to provide field simulations.
 

@@ -42,6 +42,8 @@ tf = solution[0][Symbol('V_3')].subs(SUBS)
 print('Transfer Function:', tf)
 
 
+
+
 # plot transfer function
 tf_fn = lambdify(s, tf)
 f_range = np.geomspace(1e6, 10e9, 301)
