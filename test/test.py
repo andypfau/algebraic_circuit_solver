@@ -84,7 +84,7 @@ class TestCircuits(unittest.TestCase):
 
 
 
-class TestTypes(unittest.TestCase):
+class TestValueTypes(unittest.TestCase):
 
 
     def test_symbolic_values(self):
@@ -106,6 +106,34 @@ class TestTypes(unittest.TestCase):
         self.assertEqual(len(sol), 1)
         self.assertAlmostEqual(sol[0][Symbol('V_1')], 5)
         self.assertAlmostEqual(sol[0][Symbol('I_R1')], 5/1e3)
+
+
+
+class TestRefes(unittest.TestCase):
+
+
+    def test_invalid_refdes(self):
+        circ = Circuit()
+        with self.assertRaises(ValueError):
+            circ.add(V(1, 0, v=10, refdes='123'))
+
+
+    def test_duplicate_refdes(self):
+        circ = Circuit()
+        circ.add(R(1, 0, r=10, refdes='R1'))
+        with self.assertRaises(ValueError):
+            circ.add(R(1, 0, r=10, refdes='R1'))
+
+
+
+class TestMiscBehavior(unittest.TestCase):
+
+
+    def test_invlid_refnode(self):
+        circ = Circuit()
+        circ.add(R(1, 0, r=10, refdes='R1'))
+        with self.assertRaises(RuntimeError):
+            circ.equations(ref_node='Ref')
         
 
 

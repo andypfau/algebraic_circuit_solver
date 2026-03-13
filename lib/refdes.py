@@ -14,7 +14,7 @@ class RefdesDatabase:
         if not re.match(r'[a-zA-Z]+[0-9]*', refdes):
             raise ValueError(f'Invalid refdes "{refdes}"')
         if refdes in self._refdes:
-            raise RuntimeError(f'Duplicate refdes: "{refdes}"')
+            raise ValueError(f'Duplicate refdes: "{refdes}"')
         self._refdes.add(refdes)
 
 

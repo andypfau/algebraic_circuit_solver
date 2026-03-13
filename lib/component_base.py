@@ -3,12 +3,13 @@ from __future__ import annotations
 from .types import ComplexType, ScalarType, NodeType, RefdesType
 from .refdes import RefdesDatabase
 
+import abc
 from sympy import Eq, Symbol
 from typing import Iterable
 
 
 
-class Component:
+class Component(abc.ABC):
 
 
     def __init__(self, terminals: Iterable[NodeType], refdes_prefix: str, refdes: RefdesType|None = None):
@@ -19,17 +20,22 @@ class Component:
     
 
     def __repr__(self):
-        return f'Componente(refdes={self.refdes})'
+        return f'Component(refdes={self.refdes})'
 
 
     def _connect_to_refdes_db(self, db: RefdesDatabase):
+        if self._refdes_db is not None:
+            raise RuntimeError('Refdes database already connected')
         self._refdes_db = db
+        if self._refdes:
+            self._refdes_db.register_redes(self._refdes)
+
     
     def _ensure_refdes(self):
-        if self._refdes is not None:
-            return
         if self._refdes_db is None:
             raise RuntimeError('No refdes database connected')
+        if self._refdes is not None:
+            return
         if self._refdes is None:
             self._refdes = self._refdes_db.get_new_refdes(self._refdes_prefix)
         else:
@@ -44,12 +50,13 @@ class Component:
 
 
     @property
-    def nodes(self) -> list[NodeType]:
+    def nodes(self) -> tuple[NodeType]:
         return tuple(self._nodes)
 
 
+    @abc.abstractmethod
     def _get_equation(self, node_voltages: dict[NodeType,ComplexType], component_currents: dict[tuple[RefdesType,int]|ComplexType]) -> list[Eq]:
-        raise NotImplementedError()
+        pass
 
 
     def _get_my_terminals(self, node_voltages: dict[NodeType,ComplexType]) -> Iterable[ComplexType]:
