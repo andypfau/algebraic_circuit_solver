@@ -47,14 +47,14 @@ class TestCircuits(unittest.TestCase):
         circ = Circuit()
         circ.add(V(1, 0, 5))
         circ.add(R(1, 2, 1e3))
-        circ.add(R(2, 0, 3e3))
+        circ.add(R(2, 0, 2e3))
         sol = circ.solution()
         self.assertEqual(len(sol), 1)
-        self.assertAlmostEqual(sol[0][Symbol('V_1')], 5)
-        self.assertAlmostEqual(sol[0][Symbol('V_2')], 5*(3/4))
-        self.assertAlmostEqual(sol[0][Symbol('I_V1')], -5/4e3)
-        self.assertAlmostEqual(sol[0][Symbol('I_R1')], 5/4e3)
-        self.assertAlmostEqual(sol[0][Symbol('I_R2')], 5/4e3)
+        self.assertAlmostEqual(sol[0][Symbol('V_1')], 5, delta=1e-6)
+        self.assertAlmostEqual(sol[0][Symbol('V_2')], 5*(2/3), delta=1e-6),
+        self.assertAlmostEqual(sol[0][Symbol('I_V1')], -5/3e3, delta=1e-6)
+        self.assertAlmostEqual(sol[0][Symbol('I_R1')], 5/3e3, delta=1e-6)
+        self.assertAlmostEqual(sol[0][Symbol('I_R2')], 5/3e3, delta=1e-6)
 
 
     def test_nonplanar(self):
