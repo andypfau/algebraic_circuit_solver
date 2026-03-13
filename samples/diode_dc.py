@@ -40,9 +40,10 @@ print('Transfer Function:', tf)
 
 
 # plot transfer function
+# this requires the scipy package, otherwise lambdify fails to resolve the LambertW function
 tf_fn = lambdify(Symbol('V_0'), tf)
 vf_range = np.linspace(-0.1, +0.8, 101)
-if_range = np.real(tf_fn(vf_range))  # TODO: fails because of LambertW not defined
+if_range = np.real(tf_fn(vf_range))
 
 fig = go.Figure()
 fig.add_trace(go.Scatter(x=vf_range, y=if_range/1e-3))
