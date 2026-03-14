@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0, '.'); sys.path.insert(0, '..')
 
-from lib import Circuit, Constants, R, L, C, V, I
+from lib import Circuit, Constants, R, L, C, V, I, CircuitViz
 from sympy import Symbol, symbols, Expr, simplify
 import unittest
 from typing import override
@@ -175,11 +175,26 @@ class TestRefes(unittest.TestCase):
 class TestMiscBehavior(unittest.TestCase):
 
 
-    def test_invlid_refnode(self):
+    def test_invalid_refnode(self):
         circ = Circuit(ref_node='Ref')
         circ.add(R(1, 0, r=10, refdes='R1'))
         with self.assertRaises(RuntimeError):
             circ.equations()
+
+
+    def test_graph(self):
+        circ = Circuit()
+        circ.add(V(1, 0, v=5))
+        circ.add(R(1, 0, r=100))
+        CircuitViz(circ).render()
+
+
+    def test_graph_invalid_obj_raises(self):
+        circ = Circuit()
+        circ.add(V(1, 0, v=5))
+        circ.add(R(1, 0, r=100))
+        with self.assertRaises(AttributeError):
+            CircuitViz(circ).render(0)  # hand in a non-Digraph object
         
 
 
