@@ -41,6 +41,10 @@ cd pipenv
 python -m pipenv source
 ```
 
+If you don't want to use Pipenv, you can also check out the required Python packets in the "packages" section of `pipenv/Pipfile`.
+
+Tested with python 3.14.
+
 
 ## Details
 

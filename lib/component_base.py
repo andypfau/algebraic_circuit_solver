@@ -13,7 +13,7 @@ class Component(abc.ABC):
 
 
     def __init__(self, terminals: Iterable[NodeType], refdes_prefix: str, refdes: RefdesType|None = None):
-        self._nodes = tuple(terminals)
+        self._terminal = tuple(terminals)
         self._refdes_prefix = refdes_prefix
         self._refdes = refdes
         self._refdes_db: RefdesDatabase|None = None
@@ -50,8 +50,8 @@ class Component(abc.ABC):
 
 
     @property
-    def nodes(self) -> tuple[NodeType]:
-        return tuple(self._nodes)
+    def terminals(self) -> tuple[NodeType]:
+        return tuple(self._terminal)
 
 
     @abc.abstractmethod
@@ -60,7 +60,7 @@ class Component(abc.ABC):
 
 
     def _get_my_terminals(self, node_voltages: dict[NodeType,ComplexType]) -> Iterable[ComplexType]:
-        return [node_voltages[node] for node in self._nodes]
+        return [node_voltages[node] for node in self._terminal]
     
 
 
@@ -88,8 +88,8 @@ class Component2Terminal(Component):
 
 
     def _get_my_terminals(self, node_voltages: dict[NodeType,ComplexType]) -> Iterable[ComplexType]:
-        assert len(self._nodes) == 2
-        return (node_voltages[self._nodes[0]], node_voltages[self._nodes[1]])
+        assert len(self._terminal) == 2
+        return (node_voltages[self._terminal[0]], node_voltages[self._terminal[1]])
 
 
     def _get_voltage(self, current: ComplexType) -> ComplexType:

@@ -8,6 +8,7 @@ numpy = "*"
 sympy = "*"
 plotly = "*"
 scipy = "*"
+graphviz = "*"
 
 [dev-packages]
 

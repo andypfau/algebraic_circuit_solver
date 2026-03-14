@@ -61,6 +61,17 @@ class TestCircuits(TestCaseSympy):
         self.assertAlmostEqual(sol[0][Symbol('I_R1')], 10e-3/2)
 
 
+    def test_custom_refnode(self):
+        circ = Circuit(ref_node='COM')
+        circ.add(V('A', 'COM', v=5))
+        circ.add(R('A', 'COM', r=1e3))
+        sol = circ.solution()
+        self.assertEqual(len(sol), 1)
+        self.assertAlmostEqual(sol[0][Symbol('V_A')], 5)
+        self.assertAlmostEqual(sol[0][Symbol('I_V1')], -5/1e3)
+        self.assertAlmostEqual(sol[0][Symbol('I_R1')], 5/1e3)
+
+
     def test_voltage_divider(self):
         circ = Circuit()
         circ.add(V(1, 0, 5))
@@ -165,10 +176,10 @@ class TestMiscBehavior(unittest.TestCase):
 
 
     def test_invlid_refnode(self):
-        circ = Circuit()
+        circ = Circuit(ref_node='Ref')
         circ.add(R(1, 0, r=10, refdes='R1'))
         with self.assertRaises(RuntimeError):
-            circ.equations(ref_node='Ref')
+            circ.equations()
         
 
 

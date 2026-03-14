@@ -1,10 +1,5 @@
 """
-AC transfer function and poles/zeros of a RLC low-pass filter
-
-The circuit consists of a voltage source, a resistor, an inductor, and a capacitor.
-  Those form a low-pass filter.
-The script calculates the filter's transfer function, plots it, then calculates
-  the filter's poles and zeros, and plots those as well.
+AC transfer function and poles/zeros of a simple equalizer.
 """
 
 
@@ -20,13 +15,14 @@ import plotly.graph_objects as go
 
 
 
-# RLC low-pass filter
+# simple equalizer
 s = Constants.laplace_s()
 filter = Circuit()
 filter.add(V(1, 0, v=1))
-filter.add(R(1, 2, r=Symbol('R')))
-filter.add(L(2, 3, l=Symbol('L'), s=s))
-filter.add(C(3, 0, c=Symbol('C'), s=s))
+filter.add(R(1, 2, r=Symbol('R1')))
+filter.add(L(1, 2, l=Symbol('L1'), s=s))
+filter.add(C(2, 3, c=Symbol('C2'), s=s))
+filter.add(R(3, 0, r=Symbol('R2')))
 
 
 # solve
@@ -37,8 +33,8 @@ print(solution)
 
 # substitute concrete values, calculate transfer function
 assert len(solution) == 1
-SUBS = {'R':10, 'L':1e-9, 'C':10e-12}
-tf = solution[0][Symbol('V_3')].subs(SUBS)
+SUBS = {'R1': 10, 'L1':1e-9, 'C2':100e-12, 'R2':10}
+tf = solution[0][Symbol('V_2')].subs(SUBS)
 print('Transfer Function:', tf)
 
 
@@ -66,7 +62,7 @@ print(poles_f, zeros_f)
 extent = max([abs(e) for e in [*poles_f,*zeros_f]]) * 1.1
 
 fig = go.Figure()
-fig.add_trace(go.Scatter(x=np.real(poles_f), y=np.imag(poles_f), mode='markers', line=dict(color='red'), marker=dict(symbol='cross')))
-fig.add_trace(go.Scatter(x=np.real(zeros_f), y=np.imag(zeros_f), mode='markers', line=dict(color='green'), marker=dict(symbol='circle-open')))
+fig.add_trace(go.Scatter(x=np.real(poles_f), y=np.imag(poles_f), name='Poles', mode='markers', line=dict(color='red'), marker=dict(symbol='x')))
+fig.add_trace(go.Scatter(x=np.real(zeros_f), y=np.imag(zeros_f), name='Zeros', mode='markers', line=dict(color='blue'), marker=dict(symbol='circle-open')))
 fig.update_layout(title='Poles and Zeros', xaxis_range=(-extent,+extent), yaxis_range=(-extent,+extent), width=500, height=500)
 fig.show()
