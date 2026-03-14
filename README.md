@@ -83,19 +83,20 @@ Examples of component definitions:
 
 ```python
 from lib import Circuit, V, R
+from sympy import Symbol
 
 circ = Circuit()
-circ.add(V(1, 0, 5))   # 5 V source
-circ.add(R(1, 2, 1e3)) # 1 kΩ resistor
-circ.add(R(2, 0, 1e3)) # 1 kΩ resistor
+circ.add(V(1, 0, v=Symbol('V0')))
+circ.add(R(1, 2, r=Symbol('R1')))
+circ.add(R(2, 0, r=Symbol('R2')))
 
 sol = circ.solution()
 # sol = [{
-#     I_R1: 5e-3,   # 5 mA
-#     I_R2: 5e-3,   # 5 mA
-#     I_V1: -5e-3,  # -5 mA
-#     V_1: 5.0,     # 5.0 V
-#     V_2: 2.5,     # 2.5 V
+#     V_1:  V0,
+#     V_2:  R2*V0/(R1 + R2),
+#     I_V1: -V0/(R1 + R2),
+#     I_R1: V0/(R1 + R2),
+#     I_R2: V0/(R1 + R2),
 # }]
 ```
 
