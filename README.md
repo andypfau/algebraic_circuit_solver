@@ -1,7 +1,7 @@
-Algebraic Circuit Solver
-========================
+Circuit Equations
+=================
 
-A circuit solver, written in Python, which returns sympy expressions.
+A python-based tool that extracts equations from electrical circuits.
 
 
 ## Idea and Scope
