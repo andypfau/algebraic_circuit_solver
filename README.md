@@ -6,9 +6,9 @@ A python-based tool that extracts equations from electrical circuits.
 
 ## Idea and Scope
 
-There are many circuit simulators out there. But they are all numeric, and I sometimes am interested in algebraic expressions that govern the circuit, and also the transfer function as an algebraic expression.
+There are many circuit simulators out there. But they usually are numeric, and I sometimes am interested in algebraic expressions that govern the circuit, and also the transfer function as an algebraic expression.
 
-Another motivation for this project was the curiosity of writing my own circuit solver. In the past I failed to do this with Kirchhoff's voltage law, so this time I used Kirchhoff's current law, which easily works for nonplanar networks.
+Another motivation for this project was the curiosity of writing my own circuit solver. In the past I failed to do this with Kirchhoff's voltage law, so this time I used Kirchhoff's current law, which easily works for nonplanar networks. So this may be an excuse why I wrote this, without checking if something like this already exists...
 
 Keep in mind that Sympy may struggle to solve the equations for most nonlinear circuits (that's why you normally do this numerically). Even for linear circuits, the equations may become overwhelming, but it may be interesting to be able to plug the resulting equations into any other programming language.
 
